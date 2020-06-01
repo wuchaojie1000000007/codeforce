@@ -1,0 +1,40 @@
+A. Odd Selection
+time limit per test1 second
+memory limit per test256 megabytes
+inputstandard input
+outputstandard output
+Shubham has an array 𝑎 of size 𝑛, and wants to select exactly 𝑥 elements from it, such that their sum is odd. These elements do not have to be consecutive. The elements of the array are not guaranteed to be distinct.
+
+Tell him whether he can do so.
+
+Input
+The first line of the input contains a single integer 𝑡 (1≤𝑡≤100) — the number of test cases. The description of the test cases follows.
+
+The first line of each test case contains two integers 𝑛 and 𝑥 (1≤𝑥≤𝑛≤1000) — the length of the array and the number of elements you need to choose.
+
+The next line of each test case contains 𝑛 integers 𝑎1,𝑎2,…,𝑎𝑛 (1≤𝑎𝑖≤1000) — elements of the array.
+
+Output
+For each test case, print "Yes" or "No" depending on whether it is possible to choose 𝑥 elements such that their sum is odd.
+
+You may print every letter in any case you want.
+
+
+
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (total, choose) = readLine()!!.split(" ").map { it.toInt() }
+        val (oddList, evenList) = readLine()!!.split(" ").map { it.toInt() }
+            .partition { it % 2 != 0 }
+        val result: String = when {
+            oddList.size == total -> if (choose % 2 == 0) "NO" else "YES"
+            evenList.size == total -> "NO"
+            choose == total -> if (oddList.size % 2 == 0) "NO" else "YES"
+            else -> "YES"
+        }
+        println(result)
+    }
+}
+
+accepted (how to compute big O )
