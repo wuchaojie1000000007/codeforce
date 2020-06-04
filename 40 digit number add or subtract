@@ -1,0 +1,150 @@
+class Accumulator(var accumulate: Int) {
+    var carry: Int = 0
+
+    fun accumulate(add: Int) {
+        repeat(add) {
+            accumulate += 1
+            if (accumulate == 10) {
+                accumulate = 0
+                carry += 1
+            }
+        }
+    }
+
+    companion object {
+        fun create(accumulate: Int) = Accumulator(accumulate)
+    }
+}
+
+class Subtractor(var subtract: Int) {
+    var borrow: Int = 0
+
+    fun subtract(sub: Int) {
+        repeat(sub) {
+            subtract -= 1
+            if (subtract == -1) {
+                subtract = 9
+                borrow += 1
+            }
+        }
+    }
+
+    companion object {
+        fun create(subtract: Int) = Subtractor(subtract)
+    }
+}
+
+// Add 40 digits number
+fun main() {
+
+    // Init list to hold number
+    val addList = MutableList(40) { 0 }
+    val accumulateList = MutableList(40) { 0 }
+    val carryList = MutableList(40) { 0 }
+    var carry: Int = 0
+
+    // Put number into list
+    val (addend, accumulate) = readLine()!!.split("+")
+
+    for (i in 0..addend.length - 1) {
+        addList[39 - i] = addend[addend.length - i - 1].toString().toInt()
+    }
+    for (i in 0..accumulate.length - 1) {
+        accumulateList[39 - i] = accumulate[accumulate.length - i - 1].toString().toInt()
+    }
+
+    // For each digit, do a base accumulate
+    for (i in 0..39) {
+        val accumulator = Accumulator.create(accumulateList[i])
+        accumulator.accumulate(addList[i])
+        carryList[i] = accumulator.carry
+        accumulateList[i] = accumulator.accumulate
+    }
+
+    // While carry contain 1, put it into new list and add it
+    while (carryList.contains(1)) {
+
+        // Check if overflow
+        if (carryList[0] == 1)
+            carry = 1
+
+        // Get new list
+        val newAddList = MutableList(40) { 0 }
+        for (i in 0..38) {
+            newAddList[i] = carryList[i + 1]
+        }
+
+        // Add new list
+        for (i in 0..39) {
+            val accumulator = Accumulator.create(accumulateList[i])
+            accumulator.accumulate(newAddList[i])
+            carryList[i] = accumulator.carry
+            accumulateList[i] = accumulator.accumulate
+        }
+
+    }
+
+    println(
+        if (carry == 0) "accumulate: ${accumulateList.joinToString("")}" else "accumulate: 1${accumulateList.joinToString(
+            ""
+        )}"
+    )
+}
+
+
+// Subtract 40 digits number  
+fun main() {
+
+    // Init list to hold number
+    val subList = MutableList(40) { 0 }
+    var subtractList = MutableList(40) { 0 }
+    val borrowList = MutableList(40) { 0 }
+    var borrow: Int = 0
+
+    // Put number into list
+    val (subtractor, sub) = readLine()!!.split("-")
+    for (i in 0..sub.length - 1) {
+        subList[39 - i] = sub[sub.length - i - 1].toString().toInt()
+    }
+    for (i in 0..subtractor.length - 1) {
+        subtractList[39 - i] = subtractor[subtractor.length - i - 1].toString().toInt()
+    }
+
+    // For each digit, do a base subtract
+    for (i in 0..39) {
+        val subtractor = Subtractor(subtractList[i])
+        subtractor.subtract(subList[i])
+        borrowList[i] = subtractor.borrow
+        subtractList[i] = subtractor.subtract
+    }
+
+    // While borrow contain 1, put it into new list and subtract it
+    while (borrowList.contains(1)) {
+
+        // Ckeck if overflow
+        if (borrowList[0] == 1)
+            borrow = 1
+
+        // Get new sublist
+        val newSubList = MutableList(40) { 0 }
+        for (i in 0..38) {
+            newSubList[i] = borrowList[i + 1]
+        }
+
+        // Sub new list
+        for (i in 0..39) {
+            val subtractor = Subtractor(subtractList[i])
+            subtractor.subtract(newSubList[i])
+            borrowList[i] = subtractor.borrow
+            subtractList[i] = subtractor.subtract
+        }
+
+    }
+
+    if (borrow == 1) {
+        subtractList = subtractList.map { 9 - it } as MutableList<Int>
+        subtractList[39] += 1
+    }
+    println(if (borrow == 1) "-${subtractList.joinToString("")}" else subtractList.joinToString(""))
+}
+
