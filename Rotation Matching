@@ -1,0 +1,14 @@
+fun main() {
+    val size = readLine()!!.toInt()
+    val a = readLine()!!.split(" ").map { it.toInt() }
+    val b = readLine()!!.split(" ").map { it.toInt() }
+    val dis = MutableList(size) {0}
+    for (i in 1..size) {
+        val index = b.indexOf(a[i-1])
+        val distant = if (index >= i) index -i else size -i + index
+        dis[distant] += 1
+    }
+    println(dis.max())
+}
+
+Time limit exceeded on test 7
