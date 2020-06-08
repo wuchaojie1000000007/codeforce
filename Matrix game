@@ -1,0 +1,24 @@
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (m, n) = readLine()!!.split(" ").map { it.toInt() }
+        val column = MutableList(n) { 0 }
+        val row = MutableList(m) { 0 }
+        for (i in 1..m) {
+            val rowI = readLine()!!.split(" ").map { it.toInt() }
+            if (rowI.contains(1)) {
+                row[i - 1] = 1
+            }
+            for (j in 1..n) {
+                if (column[j - 1] == 0 && rowI[j - 1] == 1) {
+                    column[j - 1] == 1
+                }
+            }
+        }
+        val rowNum = row.count { it == 0 }
+        val columnNum = column.count { it == 0 }
+        val result = minOf(rowNum, columnNum)
+        println(if (result % 2 == 0) "Vivek" else "Ashish")
+    }
+}
+
+wrong answer on test 2, dont know why.
