@@ -1,0 +1,15 @@
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val number = readLine()!!.toInt()
+        val listUnsorted = readLine()!!.split(" ").map { it.toInt() }
+        if (listUnsorted.sorted() == listUnsorted) {
+            println("YES")
+            val zeroOrOne = readLine()!!.split(" ").map { it.toInt() }
+        } else {
+            val zeroOrOne = readLine()!!.split(" ").map { it.toInt() }
+            println(if (zeroOrOne.contains(0) && zeroOrOne.contains(1)) "YES" else "NO")
+        }
+    }
+}
+
+Accepted
