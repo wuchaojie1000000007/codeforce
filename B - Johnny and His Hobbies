@@ -1,0 +1,23 @@
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        readLine()!!.toInt()
+        val originSet = readLine()!!.split(" ").map { it.toInt() }.toSet()
+        var res = -1
+        for (i in 1..1023) {
+            var resultSet = mutableSetOf<Int>()
+            for (num in originSet) {
+                val xorResult = num xor i
+                if (xorResult in originSet)
+                    resultSet.add(xorResult)
+            }
+            if (resultSet == originSet) {
+                res = i
+                break
+            }
+
+        }
+        println(res)
+    }
+}
+
+accepted. thank you kotlin implement int xor for me.
