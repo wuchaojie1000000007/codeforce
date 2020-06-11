@@ -1,0 +1,25 @@
+fun main() {
+    repeat(readLine()!!.toInt()) {
+
+        // May hav big Integer, use Long.
+        val number = readLine()!!.toLong()
+
+        println(getResult(number)+number)
+
+    }
+
+}
+
+// O(1)
+fun getResult(long: Long) : Long {
+    val binaryString = long.toString(2)
+    var minus = 0L
+    for (s in binaryString) {
+        if (s == '1') {
+            minus += 1
+        }
+    }
+    return long - minus
+}
+
+accepted.  odd and even differ.
