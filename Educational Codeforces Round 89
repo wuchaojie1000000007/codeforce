@@ -1,0 +1,17 @@
+1.Shovels and Swords
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        var (a, b) = readLine()!!.split(" ").map { it.toInt() }
+        if (a < b)
+            b = a.also { a=b }
+        val c: Int = when {
+            b <= a/2 -> b
+            else -> (a+b)/3
+        }
+        println(c)
+    }
+}
+
+accepted
+
