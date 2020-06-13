@@ -15,3 +15,24 @@ fun main() {
 
 accepted
 
+
+2.Shuffle
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (_, index, swap_times) = readLine()!!.split(" ").map { it.toInt() }
+        var s = index
+        var e = index
+        repeat(swap_times) {
+            val (start, end) = readLine()!!.split(" ").map { it.toInt() }
+            if (s in start..end || e in start..end){
+                e = maxOf(e, end)
+                s = minOf(s, start)
+               
+            }
+        }
+        println(e-s+1)
+    }
+}
+
+accepted
