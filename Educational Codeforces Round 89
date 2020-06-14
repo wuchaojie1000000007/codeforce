@@ -68,3 +68,69 @@ fun main() {
 }
 
 accepted
+
+
+D.Two Divisors
+
+fun main() {
+    val size = readLine()!!.toInt()
+    val list = readLine()!!.split(" ").map { it.toInt() }
+    val listA = MutableList(size) { -1 }
+    val listB = MutableList(size) { -1 }
+
+    repeat(size) {
+        val divisorList = findDivisor(list[it])
+        val listNum = divisorList.size
+        if (listNum > 1) {
+            if (listNum > 20) {
+                for (i in 1..listNum * listNum) {
+                    val indexA = (0..listNum - 1).random()
+                    val indexB = (0..listNum - 1 - indexA).random()
+
+                    val result = coPrime(divisorList[indexA] + divisorList[indexB], list[it])
+                    if (result) {
+                        listA[it] = divisorList[indexA]
+                        listB[it] = divisorList[indexB]
+                    }
+                }
+            } else {
+                loop@ for (i in 0..listNum - 2) {
+                    for (j in i + 1..listNum - 1) {
+                        val result = coPrime(divisorList[i] + divisorList[j], list[it])
+                        if (result) {
+                            listA[it] = divisorList[i]
+                            listB[it] = divisorList[j]
+                            break@loop
+                        }
+                    }
+                }
+            }
+        }
+    }
+    println(listA.joinToString(" "))
+    println(listB.joinToString(" "))
+}
+
+
+fun gcd(a: Int, b: Int): Int =
+    when {
+        a == b -> a
+        a > b -> gcd(a - b, b)
+        else -> gcd(a, b - a)
+    }
+
+fun coPrime(a: Int, b: Int): Boolean =
+    if (gcd(a, b) == 1) true else false
+
+fun findDivisor(a: Int): List<Int> {
+    val mutableList = mutableListOf<Int>()
+    //if (a == 2) return mutableList
+    for (i in 2..a) {
+        if (a % i == 0)
+            mutableList.add(i)
+    }
+
+    return mutableList
+}
+
+runtime error
