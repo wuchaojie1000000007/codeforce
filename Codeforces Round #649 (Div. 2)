@@ -1,0 +1,39 @@
+A - XXXXX	
+
+fun main() {
+
+    repeat(readLine()!!.toInt()) {
+        val (num, x) = readLine()!!.split(" ").map { it.toInt() }
+        val list = readLine()!!.split(" ").map { it.toInt()%x }
+        when {
+            // All zero
+            !list.map { divisible(it, x) }.contains(false) -> println(-1)
+
+            // Has pos number, match condition
+            !divisible(list.sum(), x) -> println(num)
+
+            // Has pos number, do not match condition, so remove pos number, has atlest 2 pos number
+            else -> {
+                when {
+                    // Left or right is pos number
+                    list[0] % x != 0 || list[list.size - 1] % x != 0 -> {
+                        println(list.size - 1)
+
+                    }
+                    // find the shortest pos number
+                    else -> {
+                        val leftDis = list.indexOfFirst { it != 0 }
+                        val rightDis = list.indexOfLast { it != 0 }
+                        val maxNum = maxOf(num - leftDis - 1, rightDis)
+                        println(maxNum)
+
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+fun divisible(big: Int, small: Int): Boolean = if (big % small == 0) true else false
+
