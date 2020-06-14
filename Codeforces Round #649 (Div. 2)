@@ -37,3 +37,30 @@ fun main() {
 
 fun divisible(big: Int, small: Int): Boolean = if (big % small == 0) true else false
 
+accepted
+
+
+B - Most socially-distanced subsequence
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list: MutableList<Int> = readLine()!!.split(" ").map { it.toInt() }.toMutableList()
+        
+        val indexList = mutableListOf<Int>()
+        indexList.add(list[0])
+        
+        for (i in 1..size - 2) {
+            if (list[i - 1] < list[i] && list[i] > list[i + 1] || list[i - 1] > list[i] && list[i] < list[i + 1])
+                indexList.add(list[i])
+        }
+        
+        indexList.add(list[size-1])
+        
+        println(indexList.size)
+        println(indexList.joinToString(" "))
+    }
+}
+
+accepted
+
