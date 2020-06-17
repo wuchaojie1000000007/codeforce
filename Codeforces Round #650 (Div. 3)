@@ -1,0 +1,52 @@
+A - Short Substrings
+
+fun main() {
+    repeat(readLine()!!.toInt()){
+        val str = readLine()!!.split("").toMutableList()
+        str.removeAt(str.size-1)
+        str.removeAt(0)
+        val first = str[0]
+        val last = str[str.size-1]
+        str.removeAt(str.size-1)
+        str.removeAt(0)
+        val newList = mutableListOf<String>(first)
+        for (i in 0..str.size-1) {
+            if (i % 2 == 0)
+                newList.add(str[i])
+        }
+        newList.add(last)
+        println(newList.joinToString(""))
+    }
+}
+
+in queue
+
+
+B - Even Array
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() % 2 }
+        val evenNum = list.count { it == 0 }
+        val oddNum = size - evenNum
+        val possible = when {
+            size % 2 == 0 -> evenNum == oddNum
+            else -> evenNum - 1 == oddNum
+        }
+        if (possible) {
+            var changeTime = 0
+            for (i in 0..size-1 step 2) {
+                if (list[i]==1)
+                    changeTime +=1
+            }
+            println(changeTime)
+        } else {
+            println(-1)
+        }
+    }
+}
+
+in queue
+
+
