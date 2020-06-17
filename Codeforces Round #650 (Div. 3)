@@ -19,7 +19,7 @@ fun main() {
     }
 }
 
-in queue
+in queue -> accepted
 
 
 B - Even Array
@@ -47,6 +47,29 @@ fun main() {
     }
 }
 
-in queue
+in queue -> accepted
 
 
+C - Social Distance
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (_, k) = readLine()!!.split(" ").map { it.toInt() }
+        val pre = MutableList(k+1) {0}
+        pre[0] = 1
+        val suf =  MutableList(k+1) {0}
+        suf[k] = 1
+        var tabelsList = readLine()!!
+        tabelsList = pre.joinToString("") + tabelsList + suf.joinToString("")
+
+
+        val num = tabelsList.split("1").map { it.length }.filter { it > 2*k }.map { (it-k)/(k+1) }
+
+        if (num.size == 0)
+            println(0)
+        else
+            println(num.sum())
+    }
+}
+
+accepted
