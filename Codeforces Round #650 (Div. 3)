@@ -73,3 +73,58 @@ fun main() {
 }
 
 accepted
+
+
+D - Task On The Board
+
+
+import kotlin.math.absoluteValue
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val str = readLine()!!.groupBy { it }.mapValues { (k, v) -> v.size }.toMutableMap()
+        val size = readLine()!!.toInt()
+        var list = readLine()!!.split(" ").map { it.toInt() }.toMutableList()
+        val strList = MutableList(size) { 'a' }
+        while (list.any { it >= 0 }) {
+
+            // Find where is 0
+            val indexList = mutableListOf<Int>()
+            for (i in 0..size - 1) {
+                if (list[i] == 0) {
+                    indexList += i
+                }
+            }
+
+            val zeroNum = indexList.size
+
+            val max = str.maxBy { (k, v) -> k }
+
+            val letterNum = max?.value
+            if (letterNum != null) {
+                when {
+                    letterNum >= zeroNum -> {
+                        for (item in indexList) {
+                            strList[item] = max.key
+                            list = reduce(item, list)
+                        }
+
+                    }
+                }
+            }
+            str.remove(max?.key)
+        }
+        println(strList.joinToString(""))
+    }
+}
+
+fun reduce(index: Int, list: MutableList<Int>): MutableList<Int> {
+    val size = list.size
+    for (i in 0..size - 1) {
+        list[i] -= (index - i).absoluteValue
+    }
+    list[index]-=1
+    return list
+}
+
+accepted  a little bit messy
