@@ -18,3 +18,38 @@ fun main() {
 
 accepted
 
+
+B - Codeforces Subsequences	
+
+import kotlin.math.pow
+
+fun main() {
+    val a = readLine()!!.toLong()
+    var base = 1.0
+    while (base.pow(10) < a) {
+        base += 1
+    }
+
+    val stringList = listOf("c", "o", "d", "e", "f", "o", "r", "c", "e", "s")
+    val printTimes = MutableList(10) { base.toInt() }
+    
+    var index = 0
+    var accumulate = printTimes.reduce { acc, i -> acc * i }
+
+    while (accumulate > a) {
+        printTimes[index] -= 1
+        accumulate = printTimes.reduce { acc, i -> acc * i }
+        index += 1
+
+    }
+    
+    if (printTimes.reduce { acc, i -> acc * i } < a)
+        printTimes[0] += 1
+
+    for (i in 0..stringList.size - 1) {
+        val str = List(printTimes[i]) { stringList[i] }
+        print(str.joinToString(""))
+    }
+}
+
+Wrong answer on test 4. dont know why. :(
