@@ -1,0 +1,20 @@
+A - C+=
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        var (a, b, n) = readLine()!!.split(" ").map { it.toInt() }
+        if (b > a) {
+            a = b.also { b = a }
+        }
+        var num = 0
+        while (a<=n) {
+            b+=a
+            num += 1
+            a = b.also { b = a }
+        }
+        println(num)
+    }
+}
+
+accepted
+
