@@ -1,0 +1,11 @@
+A - Maximum GCD
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        println(size/2)
+    }
+}
+
+accepted
+
