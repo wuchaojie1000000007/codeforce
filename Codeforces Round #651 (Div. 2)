@@ -9,3 +9,42 @@ fun main() {
 
 accepted
 
+
+B - GCD Compression	
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val n = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() }.map { it % 2 }
+        var oddIndex = -1
+        var evenIndex = -1
+        var printTime = 0
+        for (index in 0..list.size-1) {
+            when(list[index]) {
+                1 -> {
+                    if (oddIndex != -1) {
+                        println("${oddIndex+1} ${index+1}")
+                        printTime += 1
+                        oddIndex = -1
+                    } else {
+                        oddIndex = index
+                    }
+                }
+                0 -> {
+                    if (evenIndex != -1) {
+                        println("${evenIndex+1} ${index+1}")
+                        printTime += 1
+                        evenIndex = -1
+                    } else {
+                        evenIndex = index
+                    }
+                }
+            }
+            if (printTime == n - 1) {
+                break
+            }
+        }
+    }
+}
+
+accepted
