@@ -58,7 +58,6 @@ fun main() {
         when {
             n==1 -> println("FastestFinger")
             n % 2 == 1 -> println("Ashishgup")
-            //n == 2 -> println("Ashishgup")
             else -> result(n)
 
         }
@@ -66,35 +65,37 @@ fun main() {
 
 }
 
-fun result(int: Int) {
-    val list = Factorization(int)
-    val (evenNum, oddNum) = list.partition { it % 2 == 0 }
-    if (evenNum.size == 1) {
-        when{
-            oddNum.size % 2 == 0 -> println("Ashishgup")
-            else -> println("FastestFinger")
-        }
-    } else {
-        when {
-            oddNum.size % 2 == 0 -> println("FastestFinger")
-            else -> println("Ashishgup")
-        }
+fun result(int: Int){
+    val (evenNum, oddNum) = Factorization(int)
+    //println("$int $oddNum $evenNum")
+    when {
+        evenNum > 1 && oddNum == 0 -> println("FastestFinger")
+        evenNum == 1 && oddNum == 1 -> println("FastestFinger")
+        else -> println("Ashishgup")
     }
 }
 
-fun Factorization(int: Int): List<Int> {
-    val factorList = mutableListOf<Int>()
+fun Factorization(int: Int): Pair<Int, Int> {
 
     var num = int
-    var factor = 2
-    while (int >= factor) {
+    var oddNum = 0
+    var evenNum = 0
+    while (num % 2 == 0) {
+        num /=2
+        evenNum += 1
+    }
+    var factor = 3
+    while (num >= factor) {
         if (num % factor == 0){
             num /= factor
-            factorList += factor
-        } else factor += 1
+            oddNum += 1
+            if (num != 1) {
+                oddNum += 1
+            }
+            break
+        } else factor += 2
     }
-    return factorList
+    return Pair(evenNum, oddNum)
 }
 
-Wrong answer on test 2
-
+Time limit exceeded on test 4
