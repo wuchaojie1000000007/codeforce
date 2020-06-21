@@ -48,3 +48,53 @@ fun main() {
 }
 
 accepted
+
+C. Number Game
+
+// 得到非 1 奇数赢  得偶数不能 -1 否则输   得偶数除 奇数divisor     a 个 偶  b 个 奇数
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val n = readLine()!!.toInt()
+        when {
+            n==1 -> println("FastestFinger")
+            n % 2 == 1 -> println("Ashishgup")
+            //n == 2 -> println("Ashishgup")
+            else -> result(n)
+
+        }
+    }
+
+}
+
+fun result(int: Int) {
+    val list = Factorization(int)
+    val (evenNum, oddNum) = list.partition { it % 2 == 0 }
+    if (evenNum.size == 1) {
+        when{
+            oddNum.size % 2 == 0 -> println("Ashishgup")
+            else -> println("FastestFinger")
+        }
+    } else {
+        when {
+            oddNum.size % 2 == 0 -> println("FastestFinger")
+            else -> println("Ashishgup")
+        }
+    }
+}
+
+fun Factorization(int: Int): List<Int> {
+    val factorList = mutableListOf<Int>()
+
+    var num = int
+    var factor = 2
+    while (int >= factor) {
+        if (num % factor == 0){
+            num /= factor
+            factorList += factor
+        } else factor += 1
+    }
+    return factorList
+}
+
+Wrong answer on test 2
+
