@@ -1,0 +1,172 @@
+class LinkedList<T> {
+    private var size = 0
+    private var head: Node<T>? = null
+    private var tail: Node<T>? = null
+
+    private inner class Node<T> constructor(internal var element: T, internal var next: Node<T>?)
+
+    fun addFirst(element: T) {
+        val h = head
+        val newNode = Node(element, h)
+        head = newNode
+        if (h == null) {
+            tail = newNode
+        }
+        size += 1
+    }
+
+    fun addLast(element: T) {
+        val t = tail
+        val newNode = Node(element, null)
+        tail = newNode
+        if (t == null) {
+            head = newNode
+        } else {
+            t.next = newNode
+        }
+        size += 1
+    }
+
+    fun add(element: T) {
+        addLast(element)
+    }
+
+    fun add(index: Int, element: T) {
+        validatePositionIndex(index)
+        if (index == 0) {
+            linkHead(element)
+        } else {
+            var prev = head
+            for (i in 1 until index)
+                prev = prev!!.next
+            val next = prev!!.next
+            val newNode = Node(element, next)
+            prev.next = newNode
+            size += 1
+        }
+    }
+
+    fun getFirst() = head?.element
+
+    fun getLast() = tail?.element
+
+    fun get(index: Int): T {
+        validateElementIndex(index)
+        var x = head
+        for (i in 0 until index)
+            x = x!!.next
+        return x!!.element
+    }
+
+    fun set(index: Int, element: T): T {
+        validateElementIndex(index)
+        var x = head
+        for (i in 0 until index)
+            x = x!!.next
+        val oldValue = x!!.element
+        x.element = element
+        return oldValue
+    }
+
+    fun removeFirst() {
+        head?.let {
+            val next = it.next
+            it.next = null
+            head = next
+            if (next == null) {
+                tail = null
+            }
+            size -= 1
+        }
+    }
+
+    fun removeLast() {
+        tail?.let {
+            val prev = getPrevious(it)
+            tail = prev
+            if (prev == null)
+                head = null
+            else
+                prev.next = null
+            size -= 1
+        }
+    }
+
+    private fun getPrevious(it: Node<T>): Node<T>? {
+        var x = head
+        while (x != null) {
+            if (x.next == it)
+                return x
+            x = x.next
+        }
+        return null
+    }
+
+    fun remove(element: T) :Boolean {
+        var x = head
+        while (x != null){
+            if (x.element == element){
+                unlink(x)
+                return true
+            }
+            x = x.next
+        }
+        return false
+    }
+
+    private fun unlink(curr: Node<T>):T {
+        val element = curr.element
+        val prev = getPrevious(curr)
+        val next = curr.next
+        if (prev == null) {
+            head = next
+        } else {
+            prev.next = next
+            curr.next = null
+        }
+        if (next == null) {
+            prev?.next = null
+            tail = prev
+        }else {
+            prev?.next = next
+            curr.next = null
+        }
+        return element
+    }
+
+    fun remove(index: Int) : T {
+        validateElementIndex(index)
+        return unlink(node[index])
+    }
+
+    fun clear() {
+        var x = head
+        while (x != null) {
+            val next = x.next
+            x.next = null
+            x = next
+        }
+        tail = null
+        head = null
+        size = 0
+    }
+
+
+
+    private fun linkHead(element: T) {
+        TODO("Not yet implemented")
+    }
+
+    private fun validateElementIndex(index: Int) {
+        if (index < 0 || index >= size) throw IndexOutOfBoundsException(outOfBoundsMsg(index))
+    }
+
+    private fun validatePositionIndex(index: Int) {
+        if (index < 0 || index > size) throw IndexOutOfBoundsException(outOfBoundsMsg(index))
+    }
+
+    private fun outOfBoundsMsg(index: Int): String {
+        return "Index: $index, Size: $size"
+    }
+
+}
