@@ -231,3 +231,51 @@ fun main() {
 }
 
 Wrong answer on test 8
+
+
+E - Binary Subsequence Rotation
+
+fun main() {
+    val size = readLine()!!.toInt()
+
+    val a = readLine()!!.split("").toMutableList()
+    a.removeAt(size + 1)
+    a.removeAt(0)
+
+    val b = readLine()!!.split("").toMutableList()
+    b.removeAt(size + 1)
+    b.removeAt(0)
+
+    val s = MutableList(size) {0}
+    for (i in 0..size - 1) {
+        when {
+            a[i] == b[i] -> s[i] = 0
+            a[i] == "1" -> s[i] = 1
+            else -> s[i] = -1
+        }
+    }
+
+    // Num of 0 and 1 are different
+    if (s.sum()!=0) {
+        println(-1)
+    } else {
+        println(maxOf(getRotateTime(s, -1), getRotateTime(s, 1)))
+    }
+
+
+}
+
+fun getRotateTime(list: List<Int>, int: Int) : Int {
+    var max = 0
+    var acc = 0
+    for (i in 0..list.size-1) {
+        acc += int * list[i]
+        max = maxOf(max, acc)
+        if (acc < 0) {
+            acc = 0
+        }
+    }
+    return max
+}
+
+Accepted
