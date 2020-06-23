@@ -1,0 +1,44 @@
+A - FashionabLee
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val convexNumber = readLine()!!.toInt()
+        println(if (convexNumber%4 == 0 )"YES" else "NO")
+    }
+}
+
+
+AccurateLee
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val str = readLine()!!.split("").filter { it.length > 0 }.map { it.toInt() }
+        var num0 = 0
+        var num1 = 0
+        for (index in 0..size - 1) {
+            if (str[index] == 0) {
+                num0 += 1
+            } else break
+        }
+        for (index in size - 1 downTo 0) {
+            //println(str[index])
+            if (str[index] == 1) {
+                num1 += 1
+            } else break
+        }
+        //println(str)
+        var mid = false
+        if (size > num0 + num1) {
+            mid = true
+        }
+        //println("0: $num0 1: $num1")
+        val cleanStr:String
+        if (mid) {
+            cleanStr = (List(num0 + 1) { 0 } + List(num1) { 1 }).joinToString("")
+        } else {
+            cleanStr = (List(num0) { 0 } + List(num1) { 1 }).joinToString("")
+        }
+        println(cleanStr)
+    }
+}
