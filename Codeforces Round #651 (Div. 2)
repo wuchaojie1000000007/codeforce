@@ -181,3 +181,53 @@ fun constructSubsequence(list: List<Int>, oddOrEven: Int, cost: Int): Int {
 }
 
 accepted
+
+
+E - Binary Subsequence Rotation
+
+fun main() {
+    val size = readLine()!!.toInt()
+
+    val a = readLine()!!.split("").toMutableList()
+    a.removeAt(size + 1)
+    a.removeAt(0)
+
+    val b = readLine()!!.split("").toMutableList()
+    b.removeAt(size + 1)
+    b.removeAt(0)
+    var time = -1
+    if (a.filter { it == "1" }.size == b.filter { it == "1" }.size) {
+        time += 1
+        var s = MutableList(size) { -2 }
+        for (i in 0..size - 1) {
+            when {
+                a[i] == b[i] -> s[i] = 0
+                a[i] == "1" -> s[i] = 1
+                else -> s[i] = -1
+            }
+        }
+
+        s = s.filter { it != 0 }.toMutableList()
+
+
+        while (!s.isEmpty()) {
+            //println("a")
+            var index = 0
+            for (i in 1..s.size - 1) {
+                if (s[index] + s[i] == 0) {
+                    s[index] = 0
+                    s[i] = 0
+                    if (i < s.size - 1) {
+                        index = i + 1
+                    }
+                }
+            }
+            time += 1
+            s = s.filter { it != 0 }.toMutableList()
+        }
+    }
+    println(time)
+
+}
+
+Wrong answer on test 8
