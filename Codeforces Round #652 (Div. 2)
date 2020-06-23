@@ -42,3 +42,28 @@ fun main() {
         println(cleanStr)
     }
 }
+
+
+C - RationalLee
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (num, friend) = readLine()!!.split(" ").map { it.toInt() }
+        val numList = readLine()!!.split(" ").map { it.toLong() }.sortedDescending()
+        val giveNum = readLine()!!.split(" ").map { it.toInt() }.sorted()
+        var index = friend-1
+        var sum = 0L
+        for (item in giveNum){
+            if (item != 1) {
+                index +=item-1
+                //println(index)
+                sum += numList[index]
+            }
+        }
+        //println("sum: $sum")
+        sum += numList.take(friend).sum()
+        val give1Num = giveNum.count { it == 1 }
+        sum += numList.take(give1Num).sum()
+        println(sum)
+    }
+}
