@@ -72,9 +72,26 @@ fun main() {
 D - TediousLee
 
 fun main() {
+    val baseLineKey = List(334) {it * 6000}.sortedDescending()
+    //print(baseLineKey)
+    val baseLineValue = baseLineKey.map { findClaw(it) }
+    //print(baseLineValue)
+    val baseLineMap = mutableMapOf<Int, Long>()
+    for (i in 0..333) {
+        baseLineMap += Pair(baseLineKey[i], baseLineValue[i])
+    }
     repeat(readLine()!!.toInt()) {
-        val level = readLine()!!.toInt()
-        println(findClaw(level) * 4 % 1000000007)
+        var level = readLine()!!.toInt()
+        var index = 0
+        while (index <334 && level<baseLineKey[index]) {
+            index += 1
+        }
+        //print(index)
+        val baseLevel = baseLineKey[index]
+        //println(baseLevel)
+        val claw = baseLineMap[baseLevel]
+        //println(claw)
+        println(findClaw(level-baseLevel, claw!!) * 4 % 1000000007)
     }
 }
 
@@ -105,9 +122,9 @@ fun findContex(level: Int): Long {
 }
 
 // 2 2 +1 -1 +1 2
-fun findClaw(int: Int): Long {
+fun findClaw(int: Int, long: Long): Long {
     var level = int
-    var claw = 0L
+    var claw = long
     val bigFor = level / 30
     level = level % 30
     val midFor = level / 6
@@ -155,7 +172,7 @@ fun findClaw(level: Int): Long {
 */
 
 
-/*fun findClaw(int: Int): Long {
+fun findClaw(int: Int): Long {
     var level = int
     var claw = 0L
     val bigFor = level / 6
@@ -175,6 +192,6 @@ fun findClaw(level: Int): Long {
     claw %= 1000000007
 
     return claw
-}*/
+}
 
-Time limit exceeded on test 3
+accepted
