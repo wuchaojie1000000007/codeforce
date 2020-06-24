@@ -67,3 +67,114 @@ fun main() {
         println(sum)
     }
 }
+
+
+D - TediousLee
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val level = readLine()!!.toInt()
+        println(findClaw(level) * 4 % 1000000007)
+    }
+}
+
+fun getContex(level: Int): Long {
+    if (level == 1) return 1
+    if (level == 2) return 2
+    if (level == 3) return 5
+    else return getContex(level - 1) * 2 + getContex(level - 2) - getContex(level - 3) * 2
+}
+
+fun getClaw(level: Int): Long {
+    if (level == 1) return 0
+    if (level == 2) return 0
+    if (level == 3) return 1
+    else return getClaw(level - 3) + getContex(level - 2) - getContex(level - 3)
+}
+
+fun findContex(level: Int): Long {
+    var contex = 0L
+    for (i in 1..level) {
+        if (i % 2 == 0) {
+            contex *= 2
+        } else {
+            contex = contex * 2 + 1
+        }
+    }
+    return contex
+}
+
+// 2 2 +1 -1 +1 2
+fun findClaw(int: Int): Long {
+    var level = int
+    var claw = 0L
+    val bigFor = level / 30
+    level = level % 30
+    val midFor = level / 6
+    val smallFor = level % 6
+    for (i in 1..bigFor) {
+        claw = 1073741824 * claw + 102261126
+        //claw = 64*64*64*64*64*claw + 64*64*64*64*6 + 64*64*64*6 + 64*64*6 + 64*6 + 6
+        claw %= 1000000007
+    }
+    for (i in 1..midFor) {
+        claw = 64*claw +6
+        claw %= 1000000007
+    }
+    when (smallFor) {
+        1 -> claw = claw * 2
+        2 -> claw = claw * 4
+        3 -> claw = claw * 8 + 1
+        4 -> claw = claw * 16 + 1
+        5 -> claw = claw * 32 + 3
+    }
+    claw %= 1000000007
+
+    return claw
+}
+
+/*
+fun findClaw(level: Int): Long {
+    var claw = 0L
+
+    for (i in 1..level) {
+
+        when (i % 6) {
+            0 -> claw = claw * 2
+            1 -> claw = claw * 2
+            2 -> claw = claw * 4
+            3 -> claw = claw * 8 + 1
+            4 -> claw = claw * 16 + 1
+            5 -> claw = claw * 32 + 3
+        }
+        claw %= 1000000007
+
+    }
+    return claw
+}
+*/
+
+
+/*fun findClaw(int: Int): Long {
+    var level = int
+    var claw = 0L
+    val bigFor = level / 6
+    val smallFor = level % 6
+
+    for (i in 1..bigFor) {
+        claw = 64 * claw + 6
+        claw %= 1000000007
+    }
+    when (smallFor) {
+        1 -> claw = claw * 2
+        2 -> claw = claw * 4
+        3 -> claw = claw * 8 + 1
+        4 -> claw = claw * 16 + 1
+        5 -> claw = claw * 32 + 3
+    }
+    claw %= 1000000007
+
+    return claw
+}*/
+
+Time limit exceeded on test 3
