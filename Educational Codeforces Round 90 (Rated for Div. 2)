@@ -1,0 +1,104 @@
+
+Donut Shops
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (onePrice, multi, multiPrice) = readLine()!!.split(" ").map { it.toInt() }
+        var x = -1
+        var y = -1
+        when {
+            onePrice >= multiPrice -> {
+                y = multi
+            }
+            onePrice == multiPrice / multi -> {
+                x = 1
+            }
+            onePrice < multiPrice / multi -> {
+                y = -1
+                x = multi
+            }
+            else -> {
+                y = multi
+                x = 1
+            }
+        }
+        println("$x $y")
+    }
+}*/
+
+Accepted
+
+
+B - 01 Game
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val str = readLine()!!
+        var zero = 0
+        var one = 0
+        var pair = 0
+        for (item in str) {
+            when (item) {
+                '0' -> zero += 1
+                '1' -> one += 1
+            }
+        }
+        pair = minOf(zero, one)
+        println(if (pair % 2 == 1) "DA" else "NET")
+    }
+}*/
+
+Accepted
+
+
+
+D - Maximum Sum on Even Positions
+
+/*
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toLong() }//.toMutableList()
+        when {
+            size == 1 -> println(list[0])
+            size % 2 == 0 -> println(
+                maxOf(
+                    getMax(list),
+                    getMax(list.reversed().subList(1, list.size - 1)) + list[0]
+                )
+            )
+            else -> println(
+                maxOf(
+                    getMax(list.subList(0, list.size - 1) + list[list.size - 1]),
+                    getMax(list.reversed().subList(0, list.size - 1)) + list[0]
+                )
+            )
+        }
+    }
+}
+
+fun getMax(list: List<Long>): Long {
+    val newList = mutableListOf<Long>()
+    var base = 0L
+    for (i in 0..list.size - 1) {
+        if (i % 2 == 0) {
+            base = list[i]
+        } else {
+            newList.add(list[i] - base)
+        }
+    }
+    var acc = 0L
+    var max = 0L
+    for (index in 0..newList.size - 1) {
+        acc += newList[index]
+        if (acc < 0) {
+            acc = 0
+        }
+        max = maxOf(max, acc)
+    }
+    return list.filterIndexed { index, i -> if (index % 2 == 0) true else false }.sum() + max
+}
+
+*/
+
+Accepted
