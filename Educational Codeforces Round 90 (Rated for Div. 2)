@@ -102,3 +102,76 @@ fun getMax(list: List<Long>): Long {
 */
 
 Accepted
+
+
+G - Pawns
+
+import kotlin.math.absoluteValue
+
+class Pawns(val size: Int, val speacial: Int) {
+
+    val inputNode = mutableListOf<Node>()
+
+    val outputNode = MutableList(size + maxOf(speacial - 1, size - speacial)) { 0 }
+
+    fun addNode(column: Int, row: Int) {
+        if (Node(row, column) in inputNode) {
+            inputNode.remove(Node(row, column))
+            outputNode[Node(row, column).targetIndex] -= 1
+        } else {
+            inputNode.add(Node(row, column))
+            outputNode[Node(row, column).targetIndex] += 1
+        }
+        //println("after addnode $outputNode")
+    }
+
+    fun addRow(): Int {
+        var increase = 0
+        var index = 0
+        for (i in 0..outputNode.size - 1) {
+
+            when (outputNode[i]) {
+                0 -> {
+                    increase -= 1
+                    increase = maxOf(increase, 0)
+                }
+                1 -> {
+                    index = i
+                }
+                else -> {
+                    increase += outputNode[i] - 1
+                    index = i
+                }
+            }
+            if (increase>0) index += 1
+            //println("increase: $increase, index: $index")
+        }
+        if (increase>0) {
+            index += increase
+        }
+        return maxOf(0, index+1-size)
+    }
+
+    inner class Node constructor(private val row: Int, private val column: Int) {
+        //val targetNode = Node(row + column - speacial, speacial)
+        val targetIndex = row + (column - speacial).absoluteValue - 1
+
+        override fun equals(other: Any?): Boolean {
+            if (other is Node)
+                return row == other.row && column == other.column
+            else return false
+        }
+    }
+}
+
+fun main() {
+    val (n, k, m) = readLine()!!.split(" ").map { it.toInt() }
+    val pawns = Pawns(n, k)
+    for (i in 0..m-1) {
+        val (column, row) = readLine()!!.split(" ").map { it.toInt() }
+        pawns.addNode(column, row)
+        println(pawns.addRow())
+    }
+}
+
+Wrong answer on test 2	
