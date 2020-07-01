@@ -1,0 +1,157 @@
+A - Required Remainder
+
+/*
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (x, y, n) = readLine()!!.split(" ").map { it.toInt() }
+        val mod = n % x
+        if (mod < y) {
+            println((n / x - 1) * x + y)
+        } else {
+            println(n / x * x + y)
+        }
+    }
+}*/
+
+Accepted
+
+
+B - Multiply by 2, divide by 6
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (two, three) = getTwoThree(readLine()!!.toInt())
+        if (three>=two) {
+            println(three + three-two)
+        } else {
+            println(-1)
+        }
+    }
+
+}
+
+fun getTwoThree(int: Int): Pair<Int, Int> {
+    var num = int
+    var two = 0
+    var three = 0
+    while (num % 2 == 0) {
+        num /= 2
+        two += 1
+    }
+    while (num % 3 == 0) {
+        num /= 3
+        three += 1
+    }
+    if (num != 1)
+        return Pair(1, 0)
+    else
+        return Pair(two, three)
+}*/
+
+Accepted
+
+
+C - Move Brackets
+
+/*
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val n = readLine()!!.toInt()
+        val str = readLine()!!.map { if (it == '(') 1 else 0 }
+        var time = 0
+        var one = 0
+        for (i in 0..n - 1) {
+            if (str[i] == 0) {
+                if (one == 0)
+                    time += 1
+                else one -= 1
+            } else {
+                one += 1
+            }
+        }
+        println(time)
+    }
+}*/
+
+Accepted
+
+
+D - Zero Remainder Array
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (n, divisior) = readLine()!!.split(" ").map { it.toInt() }
+        val numMap =
+            readLine()!!.split(" ").map { it.toInt() % divisior }.filter { it > 0 }
+                .groupBy { it }.mapValues { (_, v) -> v.size }
+        //println(numMap)
+        var key = divisior
+        var size = 0
+        if (numMap.size == 0) {
+            println(0)
+        } else {
+            for ((k, v) in numMap) {
+                when {
+                    v > size -> {
+                        key = k
+                        size = v
+                    }
+                    v == size -> {
+                        if (k < key) {
+                            key = k
+                        }
+                    }
+                    else -> {
+                    }
+                }
+            }
+            println(((size - 1) * divisior + (divisior - key + 1)).toLong())
+        }
+    }
+}*/
+
+Wrong answer on test 5	
+
+
+Reading Books (easy version)
+
+/*
+fun main() {
+    val (n, k) = readLine()!!.split(" ").map { it.toInt() }
+    val bookList = mutableListOf<Triple<Int, Int, Int>>()
+    repeat(k) {
+        val (a, b, c) = readLine()!!.split(" ").map { it.toInt() }
+        bookList.add(Triple(a, b, c))
+    }
+    bookList.sortBy { it.first }
+    var Alice = 0
+    var Bob = 0
+    val AliceBookList = mutableListOf<Triple<Int, Int, Int>>()
+    val BobBookList = mutableListOf<Triple<Int, Int, Int>>()
+    var time = 0
+    for (item in bookList) {
+        when {
+            (item.second == 0 && item.third == 1) && (Alice < k && Bob < k) -> {
+                AliceBookList.add(item)
+                Alice += 1
+                BobBookList.add(item)
+                Bob += 1
+                time += item.first
+            }
+            item.second == 0 && Alice < k -> {
+                if (item.third == 1 && Bob < k) {
+
+                }
+                AliceBookList.add(item)
+                time += item.first
+            }
+            item.first == 1 && item.third == 1 && Bob < k -> {
+                BobBookList.add(item)
+                time += item.first
+            }
+
+        }
+    }
+}*/
+
+do not finish
