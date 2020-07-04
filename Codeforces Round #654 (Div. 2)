@@ -1,0 +1,65 @@
+B - Magical Calendar
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (a, b) = readLine()!!.split(" ").map { it.toInt() }
+        var res = 0L
+        if (a > b) {
+            res = (1 + b) * b.toLong() / 2L
+        } else {
+            res = a.toLong() * (a - 1) / 2L + 1
+        }
+        //println("A:$a, B:$b, res:$res")
+        println(res)
+    }
+}*/
+
+Accepted
+
+
+C - A Cookie for You
+
+/*fun main() {
+    repeat(readLine()!!.toInt()){
+        val (a, b, n, m) = readLine()!!.split(" ").map { it.toLong() }
+        var ans = "No"
+        if (a+b>=m+n) {
+            when {
+                a>b -> if (m<=b) ans = "YES"
+                a==b -> if (m<=a) ans = "YES"
+                a<b -> if (m<=a) ans = "YES"
+            }
+        }
+        println(ans)
+    }
+}*/
+
+Accepted
+
+
+D - Grid-00100
+
+/*fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (n, k) = readLine()!!.split(" ").map { it.toInt() }
+        val q = k / n
+        var res = k % n
+        if (res == 0)
+            println(0)
+        else
+            println(2)
+        for (i in 0..n-1){
+            val list = MutableList(n){0}
+            for (j in 0..q-1)
+                list[(i+j)%n] = 1
+
+            if (res != 0) {
+                list[(i + q) % n] = 1
+                res -= 1
+            }
+            println(list.joinToString(""))
+        }
+    }
+}*/
+
+Accepted
