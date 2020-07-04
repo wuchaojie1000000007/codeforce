@@ -63,3 +63,58 @@ D - Grid-00100
 }*/
 
 Accepted
+
+
+F - Raging Thunder
+
+fun main() {
+    val (n, p) = readLine()!!.split(" ").map { it.toInt() }
+    val str = readLine()!!.split("").subList(1, n + 1)
+    val num = MutableList(n) { 0 }
+    repeat(n) {
+        if (str[it] == "<") {
+            num[it] = 1
+        }
+    }
+    //println(num)
+    repeat(p) {
+        val (l, r) = readLine()!!.split(" ").map { it.toInt() }
+        var max = 1
+        var countL = 0
+        var countR = 0
+        var before = num[l - 1]
+        for (i in l - 1..r - 1) {
+            when (num[i]) {
+                1 -> {
+                    if (before == 1) {
+                        countR += 1
+                        max = maxOf(max, countR)
+                    }
+                    if (before == 0) {
+                        countL = 0
+                        before = 1
+                        countR = 1
+                    }
+                    num[i] = 0
+                }
+                0 -> {
+                    if (before == 0) {
+                        countL += 1
+                        max = maxOf(max, countL)
+                    }
+                    if (before == 1) {
+                        countL = countR + 1
+                        max = maxOf(max, countL)
+                        countR = 0
+                        before = 0
+                    }
+                    num[i] = 1
+                }
+            }
+        }
+        println(max)
+        //println(num)
+    }
+}
+
+Time limit exceeded on test 3
