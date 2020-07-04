@@ -1,0 +1,169 @@
+
+
+// return gcd(a, b)
+fun gcd(long1: Long, long2: Long): Long {
+    var first: Long = long1
+    var last: Long = long2
+    if (first < last) {
+        first = last.also { last = first }
+    }
+    if (last == 0L) {
+        return first
+    } else {
+        var res = first % last
+        while (res != 0L) {
+            first = last
+            last = res
+            res = first % last
+        }
+        return last
+    }
+}
+
+
+// Get LCM(a, b)
+fun lcm(long1: Long, long2: Long) = long1 / gcd(long1, long2) * long2
+
+
+// Solve 3x + 1 problem.
+fun threePlusOne(long: Long): Pair<List<Long>, Long> {
+    val list = mutableListOf<Long>()
+    var num = long
+    while (num !in list) {
+        list.add(num)
+        when {
+            num % 2 == 0L -> num /= 2
+            else -> num = num * 3 + 1
+        }
+    }
+    return Pair(list, num)
+}
+
+
+// Do Euclidean algorithm.
+fun axbygcdab(a: Int, b: Int): Triple<Int, Int, Int> {
+    var big = a
+    var small = b
+    var swap = false
+    if (a < b) {
+        big = small.also { small = big }
+        swap = true
+    }
+    if (small == 0) {
+        return if (!swap) Triple(1, 0, a) else Triple(0, 1, b)
+    } else {
+        var A1 = A(1, 0)
+        var A2 = A(0, 1)
+        var res = big % small
+        while (res != 0) {
+            val q = big / small
+            val Ares = A1 - A2 * q
+            A1 = A2
+            A2 = Ares
+            big = small
+            small = res
+            res = big % small
+        }
+        return if (!swap) Triple(A2.first, A2.second, small) else Triple(A2.second, A2.first, small)
+    }
+}
+
+
+// Print the result
+fun solve(a: Int, b: Int) {
+    var (x, y, gcd) = axbygcdab(a, b)
+    if (x * y == 0) println("$x, $y") else {
+        while (x < 0) {
+            x += b / gcd
+            y -= a / gcd
+        }
+        println("$x+${b / gcd}k, $y-${a / gcd}k")
+    }
+}
+
+// For solve ax + by = gcd(a, b)
+class A(val first: Int, val second: Int) {
+}
+
+operator fun A.times(int: Int) = A(this.first * int, this.second * int)
+operator fun A.plus(b: A) = A(this.first + b.first, this.second + b.second)
+operator fun A.minus(b: A) = A(this.first - b.first, this.second - b.second)
+
+// Find prime number give prime number list between 2 and sqrt(n)
+fun findPrimeNumber(int: Int, list: List<Int>): MutableList<Int> {
+    var num = int
+    val primeList = mutableListOf<Int>()
+    for (i in 0..list.size - 1) {
+
+        while (num % list[i] == 0) {
+            primeList += list[i]
+            num /= list[i]
+        }
+
+    }
+    if (num != 1)
+        primeList.add(num)
+    return primeList
+}
+
+
+// Factorization number between 1000000 and 1000030
+fun fac() {
+    val primeNum =
+        List(1002) { it }.filter { (it == 2 || it % 2 != 0) && (it == 3 || it % 3 != 0) && (it == 5 || it % 5 != 0) && (it == 7 || it % 7 != 0) && it != 0 && it != 1 }
+    //println(primeNum)
+    for (i in 1000000..1000030) {
+        val primeNumberList = findPrimeNumber(i, primeNum)
+        if (primeNumberList.isEmpty()) {
+            primeNumberList.add(i)
+        }
+        //println(primeNumberList)
+        val primeNUmberMap =
+            primeNumberList.groupBy { it }.mapValues { it.value.size }.toSortedMap()
+                .map { (k, v) ->
+                    if (v.toString().toInt() > 1) "${k.toString().toInt()}^${v.toString()
+                        .toInt()}" else "${k.toString().toInt()}"
+                }
+                .joinToString(" * ")
+        println("$i = $primeNUmberMap")
+
+    }
+}
+
+// solve ax = c (mod m)
+fun axcModM(a: Int, c: Int, m: Int): MutableList<Int> {
+    val g = gcd(a.toLong(), m.toLong())
+    if (c % g != 0L) {
+        println("No Answer!")
+        return mutableListOf()
+    }
+    val (u0, _, _) = axbygcdab(a, m)
+    val x0 = u0 * c / g
+    val result = mutableListOf<Int>()
+    repeat(g.toInt()) {
+        result += ((x0 + it * m / g) % m).toInt()
+    }
+    return result
+}
+
+// return f(x) mod(m)
+fun f(x: Int, m: Int): Int {
+    var num = m-2
+    var fx = m-1
+    while (num > 1) {
+        fx  = (fx * num)%m
+        num -= 1
+    }
+    return fx % m
+}
+
+// Solve f(x)=0 mod(m)
+fun fx0(m: Int): MutableList<Int> {
+    val root = mutableListOf<Int>()
+    repeat(m) {
+        if (f(it, m) == 0) {
+            root += it
+        }
+    }
+    return root
+}
