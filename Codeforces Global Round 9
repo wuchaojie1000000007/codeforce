@@ -141,3 +141,28 @@ fun findMEX(list: List<Int>): Int {
 }
 
 Accepted
+
+
+E - Inversion SwapSort
+
+fun main() {
+    val size = readLine()!!.toInt()
+    val list = readLine()!!.split(" ").map { it.toInt() }.toMutableList()
+    val operation = mutableListOf<Pair<Int, Int>>()
+
+    repeat(size - 1) {
+        var index = it + 1
+        while (index > 0 && list[index] < list[index - 1]) {
+            list[index] = list[index - 1].also { list[index - 1] = list[index] }
+            operation += Pair(index - 1, index)
+            index -= 1
+        }
+    }
+    println(operation.size)
+    for (item in operation) {
+        println("${item.first + 1} ${item.second + 1}")
+    }
+    //println(list)
+}
+
+Wrong answer on test 1
