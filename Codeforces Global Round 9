@@ -72,3 +72,72 @@ fun main() {
 Accepted
 
 
+C - Element Extermination
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() }
+        println(if (list[0]<list[size-1]) "YES" else "NO")
+    }
+}
+
+Accepted
+
+
+D - Replace by MEX
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() }.toMutableList()
+        val unfixedPoint = MutableList(size) { it }
+        val operation = mutableListOf<Int>()
+
+        //println(list)
+
+        while (!unfixedPoint.isEmpty()) {
+            val mex = findMEX(list)
+            if (mex == size) {
+                val index = list[unfixedPoint[0]]
+
+                // Then index become mex
+                list[unfixedPoint[0]] = size
+                operation += unfixedPoint[0]
+
+                //println(list)
+
+                // Put index in the right place
+                list[index] = index
+                operation += index
+
+                unfixedPoint -= index
+            } else {
+                list[mex] = mex
+                operation += mex
+                unfixedPoint -= mex
+            }
+            //println(list)
+        }
+        println(operation.size)
+        for (i in 0..operation.size-1){
+            operation[i] += 1
+        }
+        println(operation.joinToString(" "))
+        //println(list)
+    }
+}
+
+fun findMEX(list: List<Int>): Int {
+    val size = list.size
+    val newList = MutableList(size + 1) { it }
+    for (item in list) {
+        val index = newList.binarySearch(item)
+        //println(index)
+        if (index >-1)
+            newList.removeAt(index)
+    }
+    return newList[0]
+}
+
+Accepted
