@@ -44,3 +44,37 @@ fun main() {
 }
 
 Wrong answer on test 30
+
+
+C - Even Picture
+
+fun main() {
+    val size = readLine()!!.toInt()
+    println(size*7)
+    println("-1 0")
+    println("-1 -1")
+    println("0 -1")
+    var up = 1
+    var base = 0
+    repeat(size-1){
+        printPicture(base, up)
+        base += 2
+        up *= -1
+    }
+    println("$base 0")
+    println("${base+1} 0")
+    println("$base ${up*1}")
+    println("${base+1} ${up*1}")
+
+}
+fun printPicture(base: Int, up: Int) {
+    println("$base 0")
+    println("$base ${up*1}")
+    println("$base ${up*2}")
+    println("${base+1} 0")
+    println("${base+1} ${up*2}")
+    println("${base+2} ${up*1}")
+    println("${base+2} ${up*2}")
+}
+
+Accepted
