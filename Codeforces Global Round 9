@@ -166,3 +166,68 @@ fun main() {
 }
 
 Wrong answer on test 1
+
+
+F - Integer Game
+dont know how to solve interactive problem.     println or readline.
+
+
+G - Tree Modification
+
+// Gray -> unvisited, Black and White for color the vertice
+enum class Color { Black, White, Gray }
+
+
+fun dfs(n: Int, adj:MutableList<MutableList<Int>>, vert:MutableList<Color>) {
+
+    //println("node: $n, color: ${vert[n]}")
+
+    (0..adj[n].size-1).forEach {
+
+        val target = adj[n][it]
+
+
+        // If target is unvisited.
+        if (vert[target] == Color.Gray){
+
+            //println("$n neighber $target: color is gray.")
+
+            // Neighber vertice has different color.
+            when(vert[n]) {
+                Color.White -> {vert[target] = Color.Black}
+                Color.Black -> {vert[target] = Color.White}
+            }
+            //println("$n neighber $target: color is ${vert[target]}")
+
+            //println("search $target")
+            dfs(target, adj, vert)
+        }
+    }
+    //println("node: $n, has done")
+}
+
+fun main() {
+    val vertices = readLine()!!.toInt()
+
+    var vert: MutableList<Color> = MutableList(vertices) { Color.Gray }
+    var adj: MutableList<MutableList<Int>> = MutableList(vertices) { mutableListOf<Int>() }
+
+    repeat(vertices - 1) {
+        var (ver1, ver2) = readLine()!!.split(" ").map { it.toInt() }
+        ver1 -= 1
+        ver2 -= 1
+        adj[ver1].add(ver2)
+        adj[ver2].add(ver1)
+    }
+
+    vert[0] = Color.Black
+    dfs(0, adj, vert)
+    val black = vert.count{it == Color.Black}
+    val white = vert.count { it == Color.White }
+    println(minOf(black, white)-1)
+
+    //println(adj)
+
+}
+
+Accepted
