@@ -1,0 +1,74 @@
+A - Omkar and Completion
+
+fun main() {
+   repeat(readLine()!!.toInt()){
+       val size = readLine()!!.toInt()
+       val list = List(size){1}
+       println(list.joinToString(" "))
+   }
+}
+
+Accepted
+
+
+B - Omkar and Last Class of Math
+
+import kotlin.math.sqrt
+
+fun main() {
+
+    repeat(readLine()!!.toInt()) {
+        val num = readLine()!!.toInt()
+        val leastPrime = leastPrime(num)
+        println("${num / leastPrime} ${num / leastPrime * (leastPrime - 1)}")
+    }
+}
+
+fun leastPrime(n: Int): Int {
+    var num = 2
+    if (n % 2 == 0)
+        return 2
+    num += 1
+    while (n % num != 0 && num < sqrt(n.toDouble())) {
+        num += 2
+    }
+    if (num > sqrt(n.toDouble()))
+        return n
+    return num
+}
+
+Accepted
+
+
+C - Omkar and Baseball
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() }
+        var start = 0
+        var middle = 0
+        var end = 0
+        for (index in 0..size - 1) {
+            if (list[index] == index + 1) {
+                if (start == 1) {
+                    middle = 1
+                }
+            } else {
+                if (middle == 1) {
+                    end = 1
+                } else start = 1
+            }
+        }
+        when{
+            end == 1 -> println(2)
+            start == 0 -> println(0)
+            else -> println(1)
+        }
+    }
+}
+
+Accepted
+
+
+
