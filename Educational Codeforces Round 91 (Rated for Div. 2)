@@ -69,3 +69,106 @@ fun main() {
 
 Accepted
 
+
+D - Berserk And Fireball
+
+fun main() {
+    //repeat(readLine()!!.toInt()) {
+    val (n, m) = readLine()!!.split(" ").map { it.toInt() }
+    val (cost_fireball, k, cost_berserk) = readLine()!!.split(" ").map { it.toInt() }
+    val start = readLine()!!.split(" ").map { it.toInt() }
+    val end = readLine()!!.split(" ").map { it.toInt() }
+
+    fun cast_spell(
+        list: List<Int>,
+        left: Int = 0,
+        right: Int = 0
+    ): Triple<Long, Long, Boolean> {
+
+        val size = list.size
+
+        var fireball_mana = 0L
+        var berserk_mana = 0L
+        var legal = true
+
+        // Fireball.
+        when (size % k) {
+            0 -> fireball_mana += size.toLong() / k * cost_fireball
+            else -> fireball_mana += size.toLong() / k * cost_fireball + size.toLong() % k * cost_berserk
+        }
+
+        // Berserk.
+        when (list.max()!! > left && list.max()!! > right) {
+            true -> {
+                if (size >= k)
+                    berserk_mana += cost_fireball.toLong() + (size.toLong() - k) * cost_berserk
+                else
+                    legal = false
+            }
+            false -> {
+                berserk_mana += size.toLong() * cost_berserk
+            }
+        }
+
+        return Triple(fireball_mana, berserk_mana, legal)
+
+    }
+
+    var fireball_mana = 0L
+    var berserk_mana = 0L
+    var can_solve = true
+
+    var start_index = 0
+    for (i in 0..m - 1) {
+
+        var distance = 0
+
+        while (start_index < n && start[start_index] != end[i]) {
+            start_index += 1
+            distance += 1
+        }
+
+        if (start_index >= n) {
+            can_solve = false
+            break
+        }
+        if (distance > 0) {
+
+            val (fire, berk, legal) = cast_spell(
+                start.subList(
+                    start_index - distance,
+                    start_index
+                ),
+                if (start_index - distance == 0) 0 else end[i - 1],
+                if (start_index == n - 1) 0 else end[i]
+            )
+            if (legal == false) {
+                can_solve = false
+                break
+            }
+            fireball_mana += fire
+            berserk_mana += berk
+        }
+        start_index += 1
+    }
+    if (start_index < n) {
+        val (fire, berk, legal) = cast_spell(
+            start.subList(
+                start_index,
+                n
+            ),
+            start[start_index - 1],
+            0
+        )
+        if (legal == false) {
+            can_solve = false
+        }
+        fireball_mana += fire
+        berserk_mana += berk
+    }
+    println(if (can_solve) minOf(fireball_mana, berserk_mana) else -1)
+    //}
+}
+
+Accepted
+
