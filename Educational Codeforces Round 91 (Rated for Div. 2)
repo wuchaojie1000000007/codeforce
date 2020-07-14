@@ -21,3 +21,51 @@ fun main() {
 Accepted	
 
 
+B - Universal Solution
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val list = readLine()!!.split("").filter { it.length > 0 }
+        val r = list.count { it == "R" }
+        val s = list.count { it == "S" }
+        val p = list.count { it == "P" }
+        when {
+            r >= s && r >= p -> {
+                println( List(list.size){"P"}.joinToString(""))
+            }
+            s>=r && s>= p -> {
+                println( List(list.size){"R"}.joinToString(""))
+            }
+            else -> {
+                println( List(list.size){"S"}.joinToString(""))
+            }
+        }
+    }
+}
+
+Accepted
+
+
+C - Create The Teams	
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (n, x) = readLine()!!.split(" ").map { it.toLong() }
+        val programmers = readLine()!!.split(" ").map { it.toLong() }.sortedDescending()
+        var team = 0
+
+        var member = 0
+        programmers.forEach {
+            member += 1
+            if (it * member >= x){
+                team+=1
+                member = 0
+            }
+        }
+        
+        println(team)
+    }
+}
+
+Accepted
+
