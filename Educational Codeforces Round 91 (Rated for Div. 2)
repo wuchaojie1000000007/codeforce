@@ -1,0 +1,23 @@
+A - Three Indices
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val list = readLine()!!.split(" ").map { it.toInt() }
+        var print = false
+        for (i in 1..size - 2) {
+            if (list[i] > list[i - 1] && list[i] > list[i + 1]) {
+                println("YES")
+                println("${i} ${i + 1} ${i + 2}")
+                print = true
+                break
+            }
+        }
+        if (!print)
+            println("NO")
+    }
+}
+
+Accepted	
+
+
