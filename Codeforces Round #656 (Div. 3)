@@ -1,0 +1,122 @@
+A - Three Pairwise Maximums
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val (x, y, z) = readLine()!!.split(" ").map { it.toInt() }
+        var print = false
+        val max = maxOf(x, y, z)
+        if ((x == max && y == max) || (y == max && z == max) || (z == max && x == max)) {
+            println("Yes")
+            val a = maxOf(x, y, z)
+            val b = minOf(x, y, z)
+            val c = 1
+            println("$a $b $c")
+        } else {
+            println("NO")
+        }
+    }
+}
+
+Accepted
+
+
+B - Restore the Permutation by Merger
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val length = readLine()!!.toInt()
+        val merged = readLine()!!.split(" ").map { it.toInt() }
+        val result = mutableListOf<Int>()
+        merged.forEach {
+            if (it !in result)
+                result += it
+        }
+        println(result.joinToString(" "))
+    }
+}
+
+Accepted
+
+
+C - Make It Good
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val size = readLine()!!.toInt()
+        val arr = readLine()!!.split(" ").map { it.toInt() }.reversed()
+        var up = true
+        var number = 0
+        var index = 0
+        while (index<size-1&&arr[index]<=arr[index+1]){
+            index += 1
+        }
+        while (index<size-1&&arr[index]>=arr[index+1]){
+            index += 1
+        }
+        println(size-index-1)
+    }
+}
+
+Accepted	
+
+
+D - a-Good String
+
+val charSet = listOf<Char>(
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'i',
+    'j',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's'
+)
+
+fun main() {
+    repeat(readLine()!!.toInt()) {
+        val length = readLine()!!.toInt()
+        val str = readLine()!!
+        println(move(str, 0, length-1, 0))
+    }
+}
+
+fun move(arr: String, start: Int, end: Int, to: Int): Int {
+    when {
+        start == end && arr[start] == charSet[to] -> return 0
+        start == end && arr[start] != charSet[to] -> return 1
+    }
+
+    var leftCost = 0
+    (start..start + (end - start) / 2).forEach {
+        if (arr[it] != charSet[to]) {
+            leftCost += 1
+        }
+    }
+    var rightCost = 0
+    (start + (end - start) / 2 + 1..end).forEach {
+        if (arr[it] != charSet[to]) {
+            rightCost += 1
+        }
+    }
+    val minMove = minOf(
+        leftCost + move(arr, start + (end - start) / 2 + 1, end, to + 1),
+        rightCost + move(arr, start, start + (end - start) / 2, to + 1)
+    )
+    return minMove
+}
+
+Accepted	
+
+
