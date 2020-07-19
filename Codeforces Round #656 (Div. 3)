@@ -20,20 +20,25 @@ Accepted  155ms 22300kb
 
 B - Restore the Permutation by Merger
 
+
 fun main() {
-    repeat(readLine()!!.toInt()) {
-        val length = readLine()!!.toInt()
-        val merged = readLine()!!.split(" ").map { it.toInt() }
-        val result = mutableListOf<Int>()
-        merged.forEach {
-            if (it !in result)
-                result += it
+    val r = System.`in`.bufferedReader()
+    repeat(r.readLine()!!.toInt()) {
+        val out = StringBuilder()
+        val length = r.readLine()!!.toInt()
+        val arr = r.readLine()!!.split(" ").map { it.toInt() }.toIntArray()
+        val seen = BooleanArray(length){false}
+        arr.forEach {
+            if (!seen[it-1]){
+                seen[it-1] = true
+                out.append("$it ")
+            }
         }
-        println(result.joinToString(" "))
+        println(out)
     }
 }
 
-Accepted
+Accepted.  124ms 21100kb
 
 
 C - Make It Good
