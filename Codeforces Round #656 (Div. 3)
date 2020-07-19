@@ -221,3 +221,64 @@ fun main() {
 
 Time limit exceeded on test 7
 
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+        val (vertices, edge) = r.readLine()!!.split(" ").map { it.toInt() }
+        val edges = mutableListOf<Triple<Int, Int, Int>>()
+        val graph = Array(vertices) { mutableListOf<Int>() }
+        val indegree = IntArray(vertices) { 0 }
+        repeat(edge) {
+            val (directed, source, des) = r.readLine()!!.split(" ").map { it.toInt() }
+            val (u, v) = source - 1 to des - 1
+            edges += (Triple(directed, u, v))
+            if (directed == 1) {
+                graph[u].add(v)
+                indegree[v] += 1
+            }
+        }
+
+        val topologicalSort = IntArray(vertices) { 0 }
+        val queue = mutableListOf<Int>()
+
+        for (i in 0..vertices - 1) {
+            if (indegree[i] == 0) {
+                queue += i
+            }
+        }
+
+        var count = 0
+
+        while (queue.isNotEmpty()) {
+
+            val vertice = queue.removeAt(0)
+            topologicalSort[vertice] = count
+            count += 1
+
+            graph[vertice].forEach {
+                indegree[it] -= 1
+                if (indegree[it] == 0) {
+                    queue += it
+                }
+            }
+        }
+
+        if (count != vertices)
+            s.appendln("NO")
+        else {
+            s.appendln("YES")
+            edges.forEach {
+                when {
+                    it.first == 1 -> s.appendln("${it.second + 1} ${it.third + 1}")
+                    topologicalSort[it.second] < topologicalSort[it.third] -> s.appendln("${it.second + 1} ${it.third + 1}")
+                    else -> s.appendln("${it.third + 1} ${it.second + 1}")
+                }
+            }
+        }
+    }
+    print(s)
+}
+
+Also Time limit exceeded on test 7.
+
