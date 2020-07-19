@@ -1,23 +1,21 @@
 A - Three Pairwise Maximums
 
 fun main() {
-    repeat(readLine()!!.toInt()) {
-        val (x, y, z) = readLine()!!.split(" ").map { it.toInt() }
-        var print = false
-        val max = maxOf(x, y, z)
-        if ((x == max && y == max) || (y == max && z == max) || (z == max && x == max)) {
-            println("Yes")
-            val a = maxOf(x, y, z)
-            val b = minOf(x, y, z)
-            val c = 1
-            println("$a $b $c")
+    val r = System.`in`.bufferedReader()
+    val out = StringBuilder()
+    repeat(r.readLine()!!.toInt()){
+        val (x, y, z) = r.readLine()!!.split(" ").map { it.toInt() }.sorted()
+        if (y == z) {
+            out.appendln("YES")
+            out.appendln("1 $x $y")
         } else {
-            println("NO")
+            out.appendln("NO")
         }
     }
+    print(out)
 }
 
-Accepted
+Accepted  155ms 22300kb
 
 
 B - Restore the Permutation by Merger
