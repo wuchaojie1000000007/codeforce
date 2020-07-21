@@ -1,0 +1,36 @@
+A - Acacius and String
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    val t = "abacaba".toCharArray()
+    small@for (k in 0 until r.readLine().toInt()) {
+        val length = r.readLine()!!.toInt()
+        val str = r.readLine()!!.toCharArray()
+        big@for (i in 0..length - 7) {
+            val m = str.clone()
+            for (j in 0..6) {
+                if (m[i + j] != t[j] && m[i + j] != '?') {
+                    continue@big
+                }
+                m[i + j] = t[j]
+            }
+            var cnt = 0
+            val n = m.map { if (it=='?') 'z' else it }.toCharArray()
+            for (j in 0..length - 7){
+                if (n.copyOfRange(j, j+7).contentEquals(t)){
+                    cnt += 1
+                }
+            }
+            if (cnt == 1) {
+                s.appendln("YES")
+                s.appendln(n)
+                continue@small
+            } else continue@big
+        }
+        s.appendln("NO")
+    }
+    print(s)
+}
+
+Accepted	171 ms	22600 KB
