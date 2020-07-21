@@ -66,3 +66,71 @@ fun main() {
 }
 
 Accepted	124 ms	21600 KB
+
+
+C - Choosing flowers
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+        if (it > 0) r.readLine()
+        val (n, m) = r.readLine()!!.split(" ").map { it.toInt() }
+
+        val fl = Array(m) {
+            val Line = r.readLine()!!.split(" ")
+            Pair(Line[0].toInt(), Line[1].toInt())
+        }
+
+        fl.sortBy { it.first }
+
+        val iSum = LongArray(m) { 0L }
+        iSum[m - 1] = fl[m - 1].first.toLong()
+        (m - 2 downTo 0).forEach {
+            iSum[it] = iSum[it + 1] + fl[it].first
+        }
+
+        var max = 0L
+
+        fun bs(x: Int): Int {
+            if (x >= fl.last().first) return -1
+            var l = 0
+            var r = m
+            while (r > l) {
+                val mid = l + (r - l) / 2
+                when {
+                    fl[mid].first < x -> l = mid + 1
+                    fl[mid].first == x -> l += 1
+                    fl[mid].first > x -> r = mid
+                }
+            }
+            return l
+        }
+
+        if (n == 1) {
+            max = fl.last().first.toLong()
+        } else {
+            for (i in 0..m - 1) {
+                val base = fl[i].second
+                val index = bs(base)
+                when {
+                    index == -1 -> max =
+                        maxOf(max, base * (n - 1).toLong() + fl[i].first)
+                    m - index >= n -> {
+                        max = maxOf(max, iSum[m - n])
+                    }
+                    else -> {
+                        val other =
+                            if (index > i) (n - m + index - 1) * base.toLong() + fl[i].first
+                            else (n - m + index) * base.toLong()
+                        max = maxOf(max, other + iSum[index])
+                    }
+                }
+            }
+        }
+        s.appendln(max)
+    }
+    print(s)
+}
+
+Accepted	764 ms	26500 KB
