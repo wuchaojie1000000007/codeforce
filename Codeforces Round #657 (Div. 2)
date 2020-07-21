@@ -34,3 +34,35 @@ fun main() {
 }
 
 Accepted	171 ms	22600 KB
+
+
+B - Dubious Cyrpto
+
+fun main() {
+    val re = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    loop@ for (i in 0 until re.readLine()!!.toInt()) {
+        val (l, r, m) = re.readLine()!!.split(" ").map { it.toLong() }
+        loop2@ for (j in l..r){
+            val a = j
+            val n = (m+r-l)/a
+            if (n<1) continue@loop2
+            if (n*a>=m-r+l && n*a<=m+r-l){
+                if (m-n*a>=0){
+                    val c = l
+                    val b = l+m-n*a
+                    s.appendln("$a $b $c")
+                    continue@loop
+                } else {
+                    val c = r
+                    val b = r-(a*n-m)
+                    s.appendln("$a $b $c")
+                    continue@loop
+                }
+            }
+        }
+    }
+    print(s)
+}
+
+Accepted	124 ms	21600 KB
