@@ -84,3 +84,59 @@ fun main() {
 Accepted	155 ms	21200 KB
 Accepted	202 ms	24200 KB
 
+
+D - Unmerge
+
+import kotlin.reflect.KProperty
+
+class Memorize<T, R>(val func: (Triple<T, T, T>) -> R) {
+    val cache = mutableMapOf<Triple<T, T, T>, R>()
+    operator fun getValue(thisRef: Any?, property: KProperty<*>) = { (a, b, c): Triple<T, T, T> ->
+        cache.getOrPut(Triple(a, b, c)) { func(Triple(a, b, c)) }
+    }
+}
+
+lateinit var arr: IntArray
+
+val fit: (Triple<Int, Int, Int>) -> Boolean by Memorize { (size, target, rep) ->
+    when {
+        size == 0 -> target == 0
+        target <= 0 -> target==0
+        else -> {
+             fit(Triple(size - 1, target, rep)) || fit (Triple(size - 1, target - arr[size-1], rep))
+        }
+    }
+}
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+
+        val len = r.readLine()!!.toInt()
+        val ls = r.readLine()!!.split(" ").map { it.toInt() }.toIntArray()
+        var num = 1
+        var base = ls[0]
+        val res = mutableListOf<Int>()
+
+        for (i in 1..len * 2 - 1) {
+            when {
+                ls[i] < base -> num += 1
+                ls[i] > base -> {
+                    res += num
+                    num = 1
+                    base = ls[i]
+                }
+            }
+        }
+        res += num
+
+        arr = res.toIntArray()
+
+        if (fit(Triple(arr.size, len, it))) s.appendln("YES")
+        else s.appendln("NO")
+    }
+    print(s)
+}
+
+Time limit exceeded on test 7
