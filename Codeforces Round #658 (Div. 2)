@@ -1,0 +1,86 @@
+A - Common Subsequence
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()){
+        val (n, m) = r.readLine()!!.split(" ").map { it.toInt() }
+        val a = r.readLine()!!.split(" ").map { it.toInt() }
+        val b = r.readLine()!!.split(" ").map { it.toInt() }
+        val c = mutableMapOf<Int, Int>()
+        val d = mutableListOf<Int>()
+        a.forEach { c[it]=0 }
+        b.forEach {
+            if (c.containsKey(it))
+                d += it
+        }
+        if (d.size>0){
+            s.appendln("YES")
+            s.appendln("1 ${d[0]}")
+        } else {
+            s.appendln("NO")
+        }
+    }
+    print(s)
+}
+
+Accepted	140 ms	21100 KB
+
+
+B - Sequential Nim
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+        val len = r.readLine()!!.toInt()
+        val ls = r.readLine()!!.split(" ").map { it.toInt() }
+        val index = ls.indexOfFirst { it != 1 }
+        when{
+            index == -1 ->{
+                if (len%2==1)s.appendln("First")
+                else s.appendln("Second")
+            }
+            index%2==0 -> s.appendln("First")
+            else -> s.appendln("Second")
+        }
+    }
+    print(s)
+}
+
+Accepted	171 ms	24700 KB
+
+
+C1 - Prefix Flip (Easy Version)
+C2 - Prefix Flip (Hard Version)
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+        val len = r.readLine()!!.toInt()
+        val str = r.readLine()!!.toCharArray()
+        val target = r.readLine()!!
+
+        val res = mutableListOf<Int>()
+        for (i in 0..len - 1) {
+            when (i % 2) {
+                0 -> if (str[i/2] == target[len - 1 - i]) {
+                    res += 1
+                }
+                1 -> if (str[len-(i+1)/2] != target[len - 1 - i]){
+                    res += 1
+                }
+            }
+            res += len - i
+        }
+        s.append("${res.size} ")
+        s.append(res.joinToString(" "))
+        s.appendln()
+    }
+    print(s)
+}
+
+Accepted	155 ms	21200 KB
+Accepted	202 ms	24200 KB
+
