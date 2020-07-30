@@ -1,0 +1,28 @@
+A - Common Prefixes
+
+fun main() {
+    val r = System.`in`.bufferedReader()
+    val s = StringBuilder()
+    repeat(r.readLine()!!.toInt()) {
+        val n = r.readLine()!!.toInt()
+        val l = r.readLine()!!.split(" ").map { it.toInt() }
+        var base = MutableList<Char>(50){'a'}
+        s.appendln(base.joinToString(""))
+        repeat(n){
+            var sameNum = l[it]
+            val generate = base.toMutableList()
+            repeat(50){
+                if (sameNum>0){
+                    sameNum -= 1
+                } else {
+                    generate[it] = (if (generate[it] < 'z') (generate[it]+ 1) else 'a') as Char
+                }
+            }
+            s.appendln(generate.joinToString(""))
+            base = generate
+        }
+    }
+    print(s)
+}
+
+Accepted	140 ms	21100 KB
